@@ -44,6 +44,7 @@ interface FormDataItem {
 const saveDraft = new SaveDraft({ type: 'question' });
 
 const Ask = () => {
+  
   const initFormData: FormDataItem = {
     title: {
       value: '',
@@ -113,6 +114,7 @@ const Ask = () => {
     saveDraft.remove();
     setHasDraft(false);
   };
+
 
   useEffect(() => {
     if (!qid) {
@@ -212,6 +214,7 @@ const Ask = () => {
       });
       setImmData({ ...formData });
       setFormData({ ...formData });
+      console.log("formData title:", formData.title.value );
     });
   }, [qid]);
 
@@ -353,18 +356,21 @@ const Ask = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     event.stopPropagation();
-
+  
     setFormData({
       ...formData,
       content: { value: formData.content?.value || '', errorMsg: '', isInvalid: false },
     });
-
+  
     const params: Type.QuestionParams = {
       title: formData.title.value,
       content: formData.content?.value || '',
       tags: formData.tags?.value || [],
     };
-
+  
+    // Added console.log for form submission data
+    console.log("Form submission data:", params);
+  
     if (isEdit) {
       if (!editCaptcha) {
         submitModifyQuestion(params);
@@ -381,6 +387,7 @@ const Ask = () => {
       });
     }
   };
+  
   const backPage = () => {
     navigate(-1);
   };

@@ -217,6 +217,26 @@ func (qs *QuestionCommon) FindInfoByID(ctx context.Context, questionIDs []string
 	return list, nil
 }
 
+func testEmptyBody(ctx context.Context, question *schema.Question) {
+	if len(question.Title) == 0 {
+		fmt.Println("Validation failed: Title is required")
+	} else {
+		fmt.Println("Validation passed: Title is present")
+	}
+	
+	if question.Tags == nil || len(question.Tags) == 0 {
+		fmt.Println("Validation passed: Tags are optional")
+	} else {
+		fmt.Printf("Tags provided: %v\n", question.Tags)
+	}
+	
+	if question.Body == "" {
+		fmt.Println("Validation passed: Body content is optional")
+	} else {
+		fmt.Printf("Body content provided: %s\n", question.Body)
+	}	
+}
+
 func (qs *QuestionCommon) InviteUserInfo(ctx context.Context, questionID string) (inviteList []*schema.UserBasicInfo, err error) {
 	InviteUserInfo := make([]*schema.UserBasicInfo, 0)
 	dbinfo, has, err := qs.questionRepo.GetQuestion(ctx, questionID)
